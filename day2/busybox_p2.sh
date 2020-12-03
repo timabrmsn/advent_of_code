@@ -1,0 +1,1 @@
+tr ':-' ' ' < input | awk '{ split($4,a,""); valid += xor(a[$1]==$3, a[$2]==$3)} END { print valid }'

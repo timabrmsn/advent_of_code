@@ -1,0 +1,1 @@
+awk '{a[$1]; b[(2020-$1)]} END { for (i in a) { for (j in a) { if ((i+j) in b) { print i*j*(2020-(i+j)); exit }}}}' input
