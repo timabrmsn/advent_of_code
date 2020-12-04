@@ -1,28 +1,19 @@
-from itertools import cycle
+from itertools import cycle, islice
 from operator import mul
 from functools import reduce
 
-def advance_cycle(c, num):
-    for _ in range(num - 1):
-        next(c)
-    return next(c)
+slopes = [[1, 1, 0], [3, 1, 0], [5, 1, 0], [7, 1, 0], [1, 2, 0]]
 
-
-slopes = [(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)]
-slope_results = []
 for slope in slopes:
-    x = [cycle(line.strip()) for line in open("input", "r")]
-    row = 0
-    column = 1
-    trees = 0
+    hill = [cycle(line.strip()) for line in open("input", "r")]
+    row, column = (0, 1)
     while True:
         try:
-            row += slope[1]
+            if list(islice(hill[row], column))[-1] == "#":
+                slope[2] += 1
             column += slope[0]
-            if advance_cycle(x[row], column) == "#":
-                trees += 1
+            row += slope[1]
         except:
-            slope_results.append(trees)
             break
 
-print(reduce(mul, slope_results))
+print(reduce(mul, [s[2] for s in slopes]))
