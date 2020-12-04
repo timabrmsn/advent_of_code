@@ -1,0 +1,1 @@
+awk -F "" '{print $((c % 31)+1); c+=3}' < input | grep -c "#"
