@@ -1,0 +1,1 @@
+awk 'BEGIN{RS="\n\n"} {if (($0 ~ "byr") && ($0 ~ "iyr") && ($0 ~ "eyr") && ($0 ~ "hgt") && ($0 ~ "hcl") && ($0 ~ "ecl") && ($0 ~ "pid")) {print "yes"}}' input | wc -l
