@@ -1,1 +1,1 @@
-tr 'FL' 0 < input | tr 'BR' 1 | awk '{print "ibase=2;", $0}' | bc | sort -n | tail -1
+sed 's/^/ibase=2;/; s/[BR]/1/g; s/[FL]/0/g' input | bc | sort -n | tail -1
