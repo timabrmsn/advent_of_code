@@ -1,1 +1,7 @@
-awk '{printf $0} /^$/' input | xargs -n1 -I^ sh -c 'echo ^ | fold -w1 | sort | uniq | wc -l' | paste -sd+ | bc
+awk 'BEGIN{RS=""} {
+  gsub("\n","")
+  split($0,a,"")
+  for (i in a) {x[a[i]]}
+  print length(x)
+  delete x
+}' input | paste -sd+ | bc
