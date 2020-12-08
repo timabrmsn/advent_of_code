@@ -4,23 +4,22 @@ from collections import defaultdict
 with open("input", "r") as file:
     data = [line.strip() for line in file.readlines()]
 
-bags = [re.findall(r"(?P<name>[a-z]+ [a-z]+) bag", d) for d in data]
+bags = defaultdict(list)
 
-bagerarchy = defaultdict(list)
-
-for b in bags:
-    parent, children = b[0], b[1:]
+for line in data:
+    bag_names = re.findall(r"([\w]+ [\w]+) bag", line)
+    parent, children = bag_names[0], bag_names[1:]
     for child in children:
-        bagerarchy[child].append(parent)
+        bags[child].append(parent)
 
 
-def find_parent_totals(bag):
-    parents = bagerarchy[bag]
+def find(bag):
+    parents = bags[bag]
     total = []
     for parent in parents:
-        total.extend(find_parent_totals(parent))
+        total.extend(find(parent))
     parents.extend(total)
     return parents
 
 
-print(len(set(find_parent_totals("shiny gold"))))
+print(len(set(find("shiny gold"))))
