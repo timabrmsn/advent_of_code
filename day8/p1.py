@@ -16,14 +16,11 @@ def check_position_only_run_once(position):
         
 
 def jmp(num):
-    global cmd_counts
-    global acc_total
     global position
     position += int(num)
 
 
 def acc(num):
-    global cmd_counts
     global acc_total
     global position
     position += 1
@@ -31,7 +28,6 @@ def acc(num):
     
 
 def nop(num):
-    global cmd_counts
     global position
     position += 1
 
