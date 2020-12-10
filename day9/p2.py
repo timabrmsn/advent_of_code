@@ -17,6 +17,6 @@ for i in data:
     current.append(i)
     check_key(current)
     if sum(current) > key:
-        while sum(current) >= key:
+        while sum(current) > key:
             current.popleft()
             check_key(current)
