@@ -1,0 +1,1 @@
+sort -n input | awk '{print $0-i;i=$0} END{print 3}' | sort | uniq -c | awk '{print $1}' | paste -s -d* | bc
