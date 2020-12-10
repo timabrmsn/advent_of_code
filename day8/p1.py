@@ -9,6 +9,7 @@ cmd_counts = defaultdict(lambda: 0)
 
 def check_position_only_run_once(position):
     global acc_total
+    global cmd_counts
     cmd_counts[position] += 1
     if cmd_counts[position] > 1:
         print(acc_total)
