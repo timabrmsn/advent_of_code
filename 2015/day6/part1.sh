@@ -32,15 +32,15 @@ gawk '
 { 
   match($0, /(turn on|turn off|toggle) ([0-9]+),([0-9]+) through ([0-9]+),([0-9]+)/, a)   # extract values via regex
   
-  for ( x = a[2]; x <= a[4]; x++ ) {                                                  # loop over coordinates
+  for ( x = a[2]; x <= a[4]; x++ ) {                                                      # loop over coordinates
     for ( y = a[3]; y <= a[5]; y++ ) {
       switch (a[1]) {                                                
         case /on/:
-          lightmap[x","y] = 1; break                                      # flip lights on
+          lightmap[x","y] = 1; break                                                      # flip lights on
         case /off/:
-          lightmap[x","y] = 0; break                                      # flip lights off
+          lightmap[x","y] = 0; break                                                      # flip lights off
         case /toggle/:
-          lightmap[x","y] = !lightmap[x","y]; break                # toggle lights
+          lightmap[x","y] = !lightmap[x","y]; break                                       # toggle lights
       }
     } 
   }  
