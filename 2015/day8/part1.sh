@@ -27,10 +27,8 @@
 #
 # For example, given the four strings above, the total number of characters of string code (2 + 5 + 10 + 6 = 23) minus the total number of characters in memory for string values (0 + 3 + 7 + 1 = 11) is 23 - 11 = 12.
 
-gawk 'BEGIN{ print "BEGIN{" }           # use gawk to convert input into a gawk program
-{ print "printf "$0 }                   # where each line of input becomes the "code" string for gawk to printf
-END { print "}" }                       # so the output is the actual characters instead of the code representation
-' < input.txt > prog.awk                # save program to prog.awk
-memory=$(gawk -f prog.awk | wc -c)      # execute program and get character count with wc
-code=$(tr -d '\n' < input.txt | wc -c)  # strip newlines and get character count of "source code"
-echo $code - $memory | bc               # use bc to calculate difference
+
+string=$(gawk '{ match($0, /^"(.*)"$/, a); printf a[1] }' input.txt) # capture characters between double-quotes and use printf to remove newlines
+memory=$(gprintf %b $string | wc -c)                                 # "gprintf %b" converts hex encoded chars to actual chars, use wc -c to get character count of "memory representation"
+code=$(tr -d '\n' < input.txt | wc -c)                               # strip newlines and get character count of "source code representation"
+echo $code - $memory | bc                                            # use bc to calculate difference
