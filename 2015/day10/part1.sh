@@ -23,23 +23,11 @@
 
 input=$(cat input.txt)               # store initial value in $input var
 
-for x in {1..40}; do                 # iterate 40 times
-input=$(echo $input |                # overwrite $input var with result
-fold -1 |                            # print each character from $input on its own line
-gawk '
-NR == 1 {                            # for the first line only
-  last=$1                            # initiate $last to first char
-  count=1                            # count first char
-  next                               # skip to processing the next line
-}
-$1 ~ last {                          # if current char is same as last seen
-  count++                            # increment $count
-}
-$1 !~ last {                         # if current char is different than last
-  printf count last                  # print count & last char
-  count=1                            # reset count
-  last=$1                            # set current char to $last
-}
-END { printf count last }')          # handle last char
+for i in {1..40}; do                 # iterate 40x
+input=$(                             # overwrite $input with result
+    fold -1 <<<$input |              # put each char on its own line
+    uniq -c |                        # uniq -c gives count of successive chars
+    gawk '{ printf $1$2 }'           # format back into single line without spaces
+)
 done
-echo -n $input | wc -c
+echo -n $input | wc -c               # get count of characters in result
