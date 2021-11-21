@@ -22,6 +22,4 @@
 #
 # What is the sum of all numbers in the document?
 
-jq . < input.txt |                      # pretty print json so each value is on its own line
-grep -oE '[0-9-]+' |                    # extract any digit or "-" characters to get all the numbers
-gawk '{ sum += $0 } END { print sum }'  # sum them
+jq '[ getpath(leaf_paths) | numbers ] | add' input.txt  # "getpath(leaf_paths)" gets every "value" of all possible paths, piping to "numbers" removes the strings, and piping to add sums the total of the array.
