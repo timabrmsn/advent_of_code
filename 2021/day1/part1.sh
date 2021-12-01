@@ -69,7 +69,7 @@
 #
 # How many measurements are larger than the previous measurement?
 
-gawk 'NR == 1 { last = $0 }
+gawk 'NR == 1 { last = $1 }
 NR > 1 { 
     sum += (($1 - last) > 0)
     last = $1 
