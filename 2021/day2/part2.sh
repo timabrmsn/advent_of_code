@@ -38,7 +38,7 @@
 gawk '
 /forward/ { 
   x += $2
-  if (aim != 0) y += ($2 * aim)
+  y += ($2 * aim)
 } 
 /down/ { aim += $2 }
 /up/ { aim -= $2 }
