@@ -35,11 +35,8 @@
 # What do you get if you multiply your final horizontal position by your final depth?
 
 
-gawk '
-/forward/ { 
-  x += $2
-  y += ($2 * aim)
-} 
-/down/ { aim += $2 }
-/up/ { aim -= $2 }
-END { print x*y }' input.txt
+awk '
+/^f/ {x+=$2; y+=($2*a)} 
+/^d/ {a+=$2}
+/^u/ {a-=$2}
+END {print x*y}' input.txt

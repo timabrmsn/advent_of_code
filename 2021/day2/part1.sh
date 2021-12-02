@@ -41,8 +41,8 @@
 # your final horizontal position by your final depth?
 
 
-gawk '
-/forward/ { x += $2 } 
-/down/ { y += $2 } 
-/up/ { y -= $2 } 
-END { print x*y }' input.txt
+awk '
+/^f/ {x+=$2} 
+/^d/ {y+=$2} 
+/^u/ {y-=$2} 
+END {print x*y}' input.txt
