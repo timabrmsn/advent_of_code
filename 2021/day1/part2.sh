@@ -48,10 +48,10 @@
 # Consider sums of a three-measurement sliding window. How
 # many sums are larger than the previous sum?
 
-gawk '
-{ C=B; B=A; A=$0 }
-NR > 5 {
-    sum += (((A+B+C) - last) > 0)
-    last = (A+B+C)
-}
-END { print sum }' input.txt
+jq -s '[., .[3:]] |        # create a new array containing the input array + slice of input array from idx 3 on
+transpose |                # "zip" the two arrays together to get a rolling window of pairs of values
+map(                       # apply the following to each pair
+    (.[1] // 0) - .[0] |   # take the second item (coerce null to 0 with `//` for the missing end value), subtract the first from it
+    select(. > 0)          # filter for increasing values between the pair
+) |  length                # the length of the resulting array is our answer
+' < input.txt

@@ -69,9 +69,10 @@
 #
 # How many measurements are larger than the previous measurement?
 
-gawk 'NR == 1 { last = $1 }
-NR > 1 { 
-    sum += (($1 - last) > 0)
-    last = $1 
-}
-END { print sum }' input.txt
+jq -s '[., .[1:]] |        # create a new array containing the input array + slice of input array from idx 1 on
+transpose |                # "zip" the two arrays together to get a rolling window of pairs of values
+map(                       # apply the following to each pair
+    (.[1] // 0) - .[0] |   # take the second item (coerce null to 0 with `//` for the missing end value), subtract the first from it
+    select(. > 0)          # filter for increasing values between the pair
+) |  length                # the length of the resulting array is our answer
+' < input.txt
