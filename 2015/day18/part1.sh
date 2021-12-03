@@ -93,38 +93,36 @@
 # configuration, how many lights are on after 100 steps?
 
 gawk '{
-  a[1][NR][0]
-  split($0, a[1][NR], "")
-}
-function is_on(val) {
-    if (val == "#") return 1
-    else return 0
+  split($0, a, "")
+  for (x in a) {
+      state[1][NR][x] = (a[x] == "#")
+  }
 }
 function flip(x,y,i,      sum) {
-    sum += is_on(a[i][x-1][y+1])
-    sum += is_on(a[i][x][y+1])
-    sum += is_on(a[i][x+1][y+1])
-    sum += is_on(a[i][x-1][y])
-    sum += is_on(a[i][x+1][y])
-    sum += is_on(a[i][x-1][y-1])
-    sum += is_on(a[i][x][y-1])
-    sum += is_on(a[i][x+1][y-1])
-    if ( is_on(a[i][x][y]) ) {
-        if ((sum != 2) && (sum != 3)) { a[i+1][x][y] = "." } 
-        else { a[i+1][x][y] = "#" }
+    sum += state[i][x-1][y+1]
+    sum += state[i][x][y+1]
+    sum += state[i][x+1][y+1]
+    sum += state[i][x-1][y]
+    sum += state[i][x+1][y]
+    sum += state[i][x-1][y-1]
+    sum += state[i][x][y-1]
+    sum += state[i][x+1][y-1]
+    if ( state[i][x][y] == 1 ) {
+        return ((sum == 2) || (sum == 3))
     }
     else {
-        if ( sum == 3 ) { a[i+1][x][y] = "#" }
-        else { a[i+1][x][y] = "."}
+        return ( sum == 3 )
     }
 }
 END {
 for (i=1; i<=100; i++) {
+    sum = 0
     for (x=1; x<=100; x++) {
         for (y=1; y<=100; y++) {
-            flip(x,y,i)
-            if (i == 100) { print a[101][x][y] }
+            status = flip(x,y,i)
+            state[i+1][x][y] = status
+            sum += status
         }
     }
-}
-}' input.txt | grep -c '#'
+  } print sum
+}' input.txt
