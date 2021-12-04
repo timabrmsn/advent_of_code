@@ -73,7 +73,7 @@ def _filter(idx, _list, most_common=True):
     new_list = [x for x in _list if int(x[idx]) == criteria]
     return _filter(idx+1, new_list, most_common=most_common)
 
-o2 = _filter(0, lines, most=True)
-co2= _filter(0, lines, most=False)
+o2 = _filter(0, lines, most_common=True)
+co2= _filter(0, lines, most_common=False)
 
 print(int(o2, 2)*int(co2, 2))
