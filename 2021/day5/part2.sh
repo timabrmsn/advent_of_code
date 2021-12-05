@@ -41,7 +41,7 @@ function step(difference) {
   else return -1
 }
 { 
-  xd = diff($1,$4)
+  xd = diff($1, $4)
   yd = diff($2, $5)
   d = or(abs(xd), abs(yd))
   x = $1; y = $2
