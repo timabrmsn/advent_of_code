@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # --- Day 4: Giant Squid ---
 # 
 # You're already almost 1.5km (almost a mile) below the surface of the ocean, 
@@ -26,6 +24,7 @@
 #  6 10  3 18  5
 #  1 12 20 15 19
 # 
+
 #  3 15  0  2 22
 #  9 18 13 17  5
 # 19  8  7 25 23
@@ -77,4 +76,47 @@
 # To guarantee victory against the giant squid, figure out which board will win 
 # first. What will your final score be if you choose that board?
 
+
+
+class BingoBoard:
+    def __init__(self):
+        self.rows = [set() for _ in range(5)]
+        self.columns = [set() for _ in range(5)]
+        self.all = set()
+        self.called = set()
+    
+    def add_row(self, num, cols):
+        self.all.update(cols)
+        self.rows[num].update(cols)
+        for i, val in enumerate(cols):
+            self.columns[i].add(val)
+
+    def call_number(self, num):
+        self.all.discard(num)
+        self.called.add(num)
+        for line in self.rows + self.columns:
+            if line.issubset(self.called):
+                print("BINGO")
+                print( sum(self.all)*num )
+                exit()
+
+
+boards = []
+b = None
+for line in open("input.txt").readlines():
+    if "," in line:
+        numbers = [int(n) for n in line.split(",")]
+    elif line == "\n":
+        row = 0
+        if b:
+            boards.append(b)
+        b = BingoBoard()
+    else:
+        cols = [int(n) for n in line.split()]
+        b.add_row(row, cols)
+        row += 1
+
+for num in numbers:
+    for b in boards:
+        b.call_number(num)
 
