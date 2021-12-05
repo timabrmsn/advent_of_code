@@ -37,8 +37,7 @@ function abs(v){
 }
 function step(difference) {
   if (!difference) return 0
-  if (difference > 0) return 1
-  else return -1
+  return (difference > 0) ? 1 : -1
 }
 { 
   xd = diff($1, $4)
@@ -54,7 +53,6 @@ function step(difference) {
 END { 
   for (x in map) { 
     for (y in map[x]) { 
-      print x, y
       if (map[x][y] > 1) sum++
     }
   }
