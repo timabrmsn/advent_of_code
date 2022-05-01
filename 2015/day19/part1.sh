@@ -51,16 +51,10 @@
 # machine. How many distinct molecules can be created after all the
 # different ways you can do one replacement on the medicine molecule?
 
-csplit -q --suppress-matched input.txt '/^$/'
-while read line
-  do
-    char=$(awk '{print $1}' <<<$line)
-    repl=$(awk '{print $3}' <<<$line)
-    count=$(grep -o $char xx01 | wc -l)
-    if [ $count -gt 0 ]; then
-    for i in $(seq $count); do
-       sed "s/$char/$repl/$i" xx01
-       echo
-    done
-    fi
-done < xx00 | sort -u | wc -l
+awk -v molecule=$(tail -1 input.txt) '
+/=>/ {
+  patsplit(molecule, arr, $1)
+  for (i=1; i<=length(arr); i++) {
+    print molecule | "sed s/"$1"/"$3"/"i
+  }
+}' input.txt | sort -u | wc -l
