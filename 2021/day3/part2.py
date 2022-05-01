@@ -61,8 +61,10 @@
 with open("input.txt") as file:
     lines = [l.strip() for l in file.readlines()]
 
+
 def get_most_common(lines):
     return [int(sum(map(int, l)) >= (len(lines)/2)) for l in zip(*lines)]
+
 
 def _filter(idx, _list, most_common=True):
     if len(_list) == 1:
@@ -72,6 +74,7 @@ def _filter(idx, _list, most_common=True):
         criteria = not criteria
     new_list = [x for x in _list if int(x[idx]) == criteria]
     return _filter(idx+1, new_list, most_common=most_common)
+
 
 o2 = _filter(0, lines, most_common=True)
 co2= _filter(0, lines, most_common=False)
